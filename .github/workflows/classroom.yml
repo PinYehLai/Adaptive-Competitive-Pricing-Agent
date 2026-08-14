@@ -1,0 +1,30 @@
+name: Autograding Tests
+'on':
+- push
+- repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Package check
+      id: package-check
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Package check
+        setup-command: sudo git clone https://github.com/ORIE5355/orie5355_upload_test.git
+          upload_test; sudo -H pip3 install --ignore-installed -r upload_test/requirements.txt
+        command: python upload_test/test.py
+        timeout: 10
+    - name: Autograding Reporter
+      uses: classroom-resources/autograding-grading-reporter@v1
+      env:
+        PACKAGE-CHECK_RESULTS: "${{steps.package-check.outputs.result}}"
+      with:
+        runners: package-check
