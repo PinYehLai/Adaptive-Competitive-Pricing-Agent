@@ -29,12 +29,12 @@ The strongest approach divided customers into **8 segments** using the three cus
 
 For each customer, the pricing agent evaluates a grid of 100 candidate prices and estimates
 
-[
+$$
 \text{Expected Revenue}(p)
 ==========================
 
 p \times P(\text{purchase}\mid p, x)
-]
+$$
 
 where (x) represents customer covariates.
 
