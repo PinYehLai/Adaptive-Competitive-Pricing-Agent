@@ -27,14 +27,9 @@ We evaluated several approaches, including:
 
 The strongest approach divided customers into **8 segments** using the three customer covariates and trained a separate **XGBoost demand model** for each segment.
 
-For each customer, the pricing agent evaluates a grid of 100 candidate prices and estimates
+For each customer, the pricing agent evaluates a grid of 100 candidate prices and estimates:
 
-$$
-\text{Expected Revenue}(p)
-==========================
-
-p \times P(\text{purchase}\mid p, x)
-$$
+Expected Revenue(p) = p × P(purchase | p, x)
 
 where (x) represents customer covariates.
 
@@ -162,15 +157,11 @@ The customer's three covariates determine one of eight demand segments.
 
 For a grid of 100 possible prices, the corresponding XGBoost model estimates:
 
-[
-P(\text{purchase}\mid p, C_1,C_2,C_3)
-]
+P(purchase | p, C1, C2, C3)
 
 The agent then computes expected revenue for every candidate price:
 
-[
-R(p)=p\times P(\text{purchase})
-]
+R(p) = p × P(purchase)
 
 and selects the revenue-maximizing baseline price.
 
@@ -182,25 +173,13 @@ The baseline price is then modified according to two market-state variables.
 
 **Market Saturation**
 
-[
-\text{Market Saturation}
-========================
-
-\frac{I_{\text{self}}+I_{\text{opponent}}}
-{T}
-]
+Market Saturation = (I_self + I_opponent) / T
 
 where (T) is the remaining time before inventory replenishment.
 
 **Inventory Position**
 
-[
-\text{Inventory Ratio}
-======================
-
-\frac{I_{\text{self}}}
-{I_{\text{opponent}}+\epsilon}
-]
+Inventory Ratio = I_self / (I_opponent + ε)
 
 When supply is high relative to remaining selling opportunities, the agent lowers prices to capture more orders.
 
